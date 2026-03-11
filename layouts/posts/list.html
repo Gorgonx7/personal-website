@@ -1,0 +1,27 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+
+{{ $pages := .Pages.ByDate.Reverse }}
+{{ if gt (len $pages) 0 }}
+  <ul class="post-list">
+  {{ range $pages }}
+    <li class="post-item">
+      <article>
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        <p class="post-date"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time></p>
+        <div class="post-summary">
+          {{ if .Summary }}
+            {{ .Summary }}
+          {{ else }}
+            {{ .Plain | truncate 150 }}
+          {{ end }}
+        </div>
+        <p><a href="{{ .RelPermalink }}">Read more &raquo;</a></p>
+      </article>
+    </li>
+  {{ end }}
+  </ul>
+{{ else }}
+  <p>No posts found.</p>
+{{ end }}
+{{ end }}
