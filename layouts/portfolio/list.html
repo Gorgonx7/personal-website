@@ -1,0 +1,93 @@
+{{ define "main" }}
+  <article class="pa3 pa4-ns nested-copy-line-height">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy {{ $.Param "text_color" | default "mid-gray" }}">
+      {{ .Content }}
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="ph3 ph5-l pv4">
+      <div class="flex-l flex-wrap justify-between">
+        {{ $projects := .Pages.ByDate.Reverse }}
+        {{ range $projects }}
+          <div class="w-100 w-48-l mb4 mr3-l bg-white ba b--light-gray br2 overflow-hidden hover-shadow-lg transition">
+            <!-- Project Image -->
+            {{ if .Params.image }}
+              <div class="relative h4 bg-light-gray overflow-hidden">
+                <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-100 h-100 object-cover" />
+              </div>
+            {{ else }}
+              <div class="relative h4 bg-light-gray flex items-center justify-center">
+                <span class="f1 gray">📦</span>
+              </div>
+            {{ end }}
+
+            <!-- Project Content -->
+            <div class="pa3">
+              <h2 class="f4 near-black mt0 mb2">
+                <a href="{{ .RelPermalink }}" class="link black dim">
+                  {{ .Title }}
+                </a>
+              </h2>
+
+              <p class="f6 gray mb3 lh-copy">{{ .Description }}</p>
+
+              <!-- Technologies -->
+              {{ if .Params.technologies }}
+                <div class="mb3">
+                  <div class="f7 gray mb1">Technologies:</div>
+                  <div class="flex flex-wrap">
+                    {{ range .Params.technologies }}
+                      <span class="f7 ba br-pill ph2 pv1 mr2 mb1 bg-light-gray mid-gray">{{ . }}</span>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ end }}
+
+              <!-- Links -->
+              <div class="flex mt3 pt3 bb b--light-gray">
+                {{ if .Params.demo }}
+                  <a href="{{ .Params.demo }}" class="link f7 fw6 blue hover-dark-blue mr3" target="_blank" rel="noopener">
+                    🌐 View Demo
+                  </a>
+                {{ end }}
+                {{ if .Params.repo }}
+                  <a href="{{ .Params.repo }}" class="link f7 fw6 blue hover-dark-blue" target="_blank" rel="noopener">
+                    💻 Source Code
+                  </a>
+                {{ end }}
+              </div>
+
+              <!-- Read More -->
+              <div class="mt3">
+                <a href="{{ .RelPermalink }}" class="link f7 fw6 dark-blue hover-blue">
+                  Read More →
+                </a>
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </section>
+  </article>
+
+  <style>
+    .hover-shadow-lg:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .transition {
+      transition: all 0.3s ease-in-out;
+    }
+    .object-cover {
+      object-fit: cover;
+    }
+    .flex {
+      display: flex;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+  </style>
+{{ end }}

@@ -1,8 +1,13 @@
 ---
 title: "Portfolio"
-description: "A few years ago, while visiting or, rather, rummaging about Notre-Dame, the author of this book found, in an obscure nook of one of the towers, the following word, engraved by hand upon the wall: —ANANKE."
+description: "A showcase of my projects, skills, and professional work"
 menu:
   main:
     weight: 2
 ---
-This is a portfolio page
+
+Welcome to my portfolio! Here you'll find a collection of my recent projects and work that showcase my skills in web development, mobile development, and software engineering. Each project represents my commitment to building high-quality, user-focused applications.
+
+## My Projects
+
+<!-- Projects will be displayed here -->

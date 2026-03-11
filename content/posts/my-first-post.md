@@ -2,6 +2,7 @@
 date = '2025-03-26T19:34:20Z'
 draft = false
 title = 'My First Post'
+tags = ['introduction', 'golang']
 +++
 ## Introduction
 

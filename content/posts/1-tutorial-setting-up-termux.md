@@ -2,6 +2,7 @@
 date = '2026-02-08T22:53:20Z'
 draft = true
 title = 'Creating a basic code environment on tablet'
+tags = ['tutorial', 'termux', 'mobile', 'development']
 +++
 
 So I like writing blogs. 

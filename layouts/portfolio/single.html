@@ -1,0 +1,97 @@
+{{ define "main" }}
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <h1 class="f1 athelas mt3 mb2">{{ .Title }}</h1>
+      <p class="f5 gray mb4">{{ .Description }}</p>
+
+      <!-- Project Links -->
+      <div class="flex mb4">
+        {{ if .Params.demo }}
+          <a href="{{ .Params.demo }}" class="link f6 fw6 blue hover-dark-blue mr4 ba ph3 pv2 br2" target="_blank" rel="noopener">
+            🌐 View Live Demo
+          </a>
+        {{ end }}
+        {{ if .Params.repo }}
+          <a href="{{ .Params.repo }}" class="link f6 fw6 blue hover-dark-blue ba ph3 pv2 br2" target="_blank" rel="noopener">
+            💻 View Source Code
+          </a>
+        {{ end }}
+      </div>
+
+      <!-- Meta Information -->
+      {{ if .Params.technologies }}
+        <div class="mb4">
+          <h3 class="f6 fw6 mb2">Technologies Used:</h3>
+          <div class="flex flex-wrap">
+            {{ range .Params.technologies }}
+              <span class="f6 ba br-pill ph3 pv2 mr2 mb2 bg-light-gray mid-gray">{{ . }}</span>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+
+      {{ if .Params.tags }}
+        <div class="mb4">
+          <h3 class="f6 fw6 mb2">Project Tags:</h3>
+          <div class="flex flex-wrap">
+            {{ range .Params.tags }}
+              <span class="f6 ba br-pill ph3 pv2 mr2 mb2 bg-blue white">{{ . }}</span>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </header>
+
+    <!-- Project Content -->
+    <div class="nested-copy-line-height lh-copy f5 nested-links mid-gray pr4-l w-two-thirds-l">
+      {{ .Content }}
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="w-30-l mt6-l">
+      {{ if .Params.image }}
+        <div class="mb4">
+          <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-100 br2" />
+        </div>
+      {{ end }}
+
+      <div class="bg-light-gray pa3 br2">
+        <h3 class="f6 fw6 mb3">Project Details</h3>
+        
+        {{ if .Date }}
+          <div class="mb3 pb3 bb b--light-gray">
+            <p class="f7 gray mb1">Completed</p>
+            <p class="f6 fw6">{{ .Date | time.Format "January 2, 2006" }}</p>
+          </div>
+        {{ end }}
+
+        {{ if .Params.technologies }}
+          <div class="mb3 pb3 bb b--light-gray">
+            <p class="f7 gray mb2">Stack</p>
+            <ul class="list pa0">
+              {{ range .Params.technologies }}
+                <li class="f7 mb1">{{ . }}</li>
+              {{ end }}
+            </ul>
+          </div>
+        {{ end }}
+
+        {{ if .Params.demo }}
+          <div class="mb3">
+            <a href="{{ .Params.demo }}" class="link f7 fw6 blue hover-dark-blue db mb2" target="_blank" rel="noopener">
+              → Visit Live Demo
+            </a>
+          </div>
+        {{ end }}
+
+        {{ if .Params.repo }}
+          <div class="mb3">
+            <a href="{{ .Params.repo }}" class="link f7 fw6 blue hover-dark-blue db" target="_blank" rel="noopener">
+              → View on GitHub
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </aside>
+  </article>
+{{ end }}

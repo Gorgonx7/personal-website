@@ -1,6 +1,6 @@
 baseURL = 'https://jamesgordon.dev'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'James Gordon - Computer Stuff'
 theme = 'ananke'
 [caches]
   [caches.images]
