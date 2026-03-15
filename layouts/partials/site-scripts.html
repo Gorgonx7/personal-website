@@ -1,0 +1,35 @@
+{{- if eq .Kind "section" -}}
+  {{- if eq .Section "posts" -}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('.filter-btn, .active-filter');
+  const postsContainer = document.getElementById('posts-container');
+  const postItems = document.querySelectorAll('.post-item');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const selectedTag = this.getAttribute('data-tag');
+
+      // Update active button
+      document.querySelectorAll('.filter-btn, .active-filter').forEach(btn => {
+        btn.classList.remove('bg-black', 'white');
+        btn.classList.add('black');
+      });
+      this.classList.remove('black');
+      this.classList.add('bg-black', 'white');
+
+      // Filter posts
+      postItems.forEach(post => {
+        const postTags = post.getAttribute('data-tags').split(',');
+        if (selectedTag === 'all' || postTags.includes(selectedTag)) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+  {{- end -}}
+{{- end -}}

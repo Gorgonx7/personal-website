@@ -6,10 +6,14 @@
 
     <div class="flex-l">
       <!-- Posts section -->
-      <section class="flex-auto flex-wrap justify-around mt5 ph3 ph5-l">
+      <section class="flex-auto flex-wrap justify-around mt5 ph3 ph5-l" id="posts-container">
         {{ $pages := .Pages.ByDate.Reverse }}
         {{ range $pages }}
-          <div class="relative w-100 w-45-l mb4 bg-white">
+          {{ $tagNames := slice }}
+          {{ range .GetTerms "tags" }}
+            {{ $tagNames = $tagNames | append .Name }}
+          {{ end }}
+          <div class="relative w-100 w-45-l mb4 bg-white post-item" data-tags="{{ delimit $tagNames "," }}">
             {{ .Render "summary" }}
           </div>
         {{ end }}
@@ -22,15 +26,15 @@
           {{ $tags := .Site.Taxonomies.tags }}
           {{ if $tags }}
             <div class="mb3">
-              <a href="{{ .RelPermalink }}" class="link f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif {{ if eq .Page.Params.filterTag ""}}bg-black white{{ end }}">
+              <button data-tag="all" class="link f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif bg-black white active-filter">
                 All Posts
-              </a>
+              </button>
             </div>
             {{ range $tags.ByCount }}
               <div class="mb2">
-                <a href="{{ .Page.RelPermalink }}" class="link f6 grow no-underline br-pill ba ph3 pv2 dib black sans-serif">
+                <button data-tag="{{ .Name }}" class="link f6 grow no-underline br-pill ba ph3 pv2 dib black sans-serif filter-btn">
                   {{- .Name -}}
-                </a>
+                </button>
               </div>
             {{ end }}
           {{ end }}
