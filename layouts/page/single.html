@@ -1,0 +1,94 @@
+{{ define "header" }}{{ partial "page-header.html" . }}{{ end }}
+{{ define "main" }}
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <header>
+        <h1 class="f1">
+          {{ .Title }}
+        </h1>
+      </header>
+      <div class="nested-copy-line-height lh-copy f4 nested-links {{ $.Param "text_color" | default "mid-gray" }}">
+        {{ .Content }}
+
+        {{/* Show portfolio projects under the portfolio blurb when in the portfolio section */}}
+        {{ if eq .Section "portfolio" }}
+          <section class="ph3 ph5-l pv4">
+            <div class="flex-l flex-wrap justify-between">
+              {{ $projectsSection := site.GetPage "section" "projects" }}
+              {{ if $projectsSection }}
+                {{ $projects := $projectsSection.Pages.ByDate.Reverse }}
+                {{ range $projects }}
+                  <article class="w-100 w-two-thirds-l center mb4 bg-white ba b--light-gray br2 overflow-hidden hover-shadow-lg transition">
+                    <a href="{{ .RelPermalink }}" class="db no-underline black">
+                      {{ if .Params.image }}
+                        <div class="project-image-container">
+                          <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-100 h-100 object-cover" />
+                        </div>
+                      {{ else }}
+                        <div class="project-image-container bg-light-gray flex items-center justify-center">
+                          <span class="f1 gray">📦</span>
+                        </div>
+                      {{ end }}
+
+                      <div class="pa3 pb3">
+                        <h2 class="f3 f4-ns near-black mt0 mb2">
+                          {{ .Title }}
+                        </h2>
+
+                        {{ if .Params.tags }}
+                          <div class="flex flex-wrap">
+                            {{ range .Params.tags }}
+                              <span class="f7 ba br-pill ph2 pv1 mr2 mb2 bg-near-white mid-gray">{{ . }}</span>
+                            {{ end }}
+                          </div>
+                        {{ end }}
+                      </div>
+                    </a>
+                  </article>
+                {{ end }}
+              {{ else }}
+                <p class="tc gray">No projects found.</p>
+              {{ end }}
+            </div>
+          </section>
+
+          <style>
+            .project-image-container {
+              height: 0;
+              padding-bottom: 12%; /* even slimmer preview height */
+              position: relative;
+              overflow: hidden;
+            }
+            .project-image-container img {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+            .hover-shadow-lg:hover {
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            .transition {
+              transition: all 0.3s ease-in-out;
+            }
+            .object-cover {
+              object-fit: cover;
+            }
+            .flex {
+              display: flex;
+            }
+            .items-center {
+              align-items: center;
+            }
+            .justify-center {
+              justify-content: center;
+            }
+          </style>
+        {{ end }}
+      </div>
+    </article>
+  </div>
+{{ end }}
+

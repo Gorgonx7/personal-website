@@ -1,84 +1,94 @@
 {{ define "main" }}
   <article class="pa3 pa4-ns nested-copy-line-height">
-    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy {{ $.Param "text_color" | default "mid-gray" }}">
+    <!-- Wider intro text -->
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tl center mw8 lh-copy {{ $.Param "text_color" | default "mid-gray" }}">
       {{ .Content }}
     </section>
 
-    <!-- Projects Grid -->
-    <section class="ph3 ph5-l pv4">
-      <div class="flex-l flex-wrap justify-between">
-        {{ $projects := .Pages.ByDate.Reverse }}
-        {{ range $projects }}
-          <div class="w-100 w-48-l mb4 mr3-l bg-white ba b--light-gray br2 overflow-hidden hover-shadow-lg transition">
-            <!-- Project Image -->
-            {{ if .Params.image }}
-              <div class="relative h4 bg-light-gray overflow-hidden">
-                <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-100 h-100 object-cover" />
-              </div>
-            {{ else }}
-              <div class="relative h4 bg-light-gray flex items-center justify-center">
-                <span class="f1 gray">📦</span>
+    <div class="flex-l mw8 center">
+      <!-- Projects section -->
+      <section class="w-100 w-75-l flex-wrap justify-around mt5 ph3 ph4-l pr4-l">
+        {{ $projectsSection := site.GetPage "section" "projects" }}
+        {{ if $projectsSection }}
+          {{ $projects := $projectsSection.Pages.ByDate.Reverse }}
+          {{ range $projects }}
+            <article class="w-100 mb3 mb4-l bg-white ba b--light-gray br2 overflow-hidden hover-shadow-lg transition">
+              <a href="{{ .RelPermalink }}" class="db no-underline black">
+                {{ if .Params.image }}
+                  <div class="project-image-container">
+                    <img src="{{ .Params.image }}" alt="{{ .Title }}" class="w-100 h-100 object-cover" />
+                  </div>
+                {{ else }}
+                  <div class="project-image-container bg-light-gray flex items-center justify-center">
+                    <span class="f1 gray">📦</span>
+                  </div>
+                {{ end }}
+
+                <div class="pa3 pb3">
+                  <h2 class="f3 f4-ns near-black mt0 mb2">
+                    {{ .Title }}
+                  </h2>
+
+                  {{ if .Params.tags }}
+                    <div class="flex flex-wrap">
+                      {{ range .Params.tags }}
+                        <span class="f7 ba br-pill ph2 pv1 mr2 mb2 bg-near-white mid-gray">{{ . }}</span>
+                      {{ end }}
+                    </div>
+                  {{ end }}
+                </div>
+              </a>
+            </article>
+          {{ end }}
+        {{ else }}
+          <p class="tc gray">No projects found.</p>
+        {{ end }}
+      </section>
+
+      <!-- Tags filter section on the right (same pattern as blog) -->
+      <aside class="w-100 w-20-l mt5 tr">
+        <div class="sticky">
+          <h3 class="f4 mb3">Filter by tag:</h3>
+          {{ $tags := .Site.Taxonomies.tags }}
+          {{ if $tags }}
+            <div class="mb3">
+              <a href="{{ .RelPermalink }}" class="link f6 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">
+                All Projects
+              </a>
+            </div>
+            {{ range $tags.ByCount }}
+              <div class="mb2">
+                <a href="{{ .Page.RelPermalink }}" class="link f6 grow no-underline br-pill ba ph3 pv2 dib black sans-serif">
+                  {{- .Name -}}
+                </a>
               </div>
             {{ end }}
-
-            <!-- Project Content -->
-            <div class="pa3">
-              <h2 class="f4 near-black mt0 mb2">
-                <a href="{{ .RelPermalink }}" class="link black dim">
-                  {{ .Title }}
-                </a>
-              </h2>
-
-              <p class="f6 gray mb3 lh-copy">{{ .Description }}</p>
-
-              <!-- Technologies -->
-              {{ if .Params.technologies }}
-                <div class="mb3">
-                  <div class="f7 gray mb1">Technologies:</div>
-                  <div class="flex flex-wrap">
-                    {{ range .Params.technologies }}
-                      <span class="f7 ba br-pill ph2 pv1 mr2 mb1 bg-light-gray mid-gray">{{ . }}</span>
-                    {{ end }}
-                  </div>
-                </div>
-              {{ end }}
-
-              <!-- Links -->
-              <div class="flex mt3 pt3 bb b--light-gray">
-                {{ if .Params.demo }}
-                  <a href="{{ .Params.demo }}" class="link f7 fw6 blue hover-dark-blue mr3" target="_blank" rel="noopener">
-                    🌐 View Demo
-                  </a>
-                {{ end }}
-                {{ if .Params.repo }}
-                  <a href="{{ .Params.repo }}" class="link f7 fw6 blue hover-dark-blue" target="_blank" rel="noopener">
-                    💻 Source Code
-                  </a>
-                {{ end }}
-              </div>
-
-              <!-- Read More -->
-              <div class="mt3">
-                <a href="{{ .RelPermalink }}" class="link f7 fw6 dark-blue hover-blue">
-                  Read More →
-                </a>
-              </div>
-            </div>
-          </div>
-        {{ end }}
-      </div>
-    </section>
+          {{ end }}
+        </div>
+      </aside>
+    </div>
   </article>
 
   <style>
+    .project-image-container {
+      height: 0;
+      padding-bottom: 18%; /* slightly taller preview height */
+      position: relative;
+      overflow: hidden;
+    }
+    .project-image-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .hover-shadow-lg:hover {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
     .transition {
       transition: all 0.3s ease-in-out;
-    }
-    .object-cover {
-      object-fit: cover;
     }
     .flex {
       display: flex;

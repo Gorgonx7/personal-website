@@ -11,3 +11,4 @@ Welcome to my portfolio! Here you'll find a collection of my recent projects and
 ## My Projects
 
 <!-- Projects will be displayed here -->
+
